@@ -2,7 +2,7 @@
  * @module background.js
  * - catches and modifies http headers according to user defined settings
  * - provides access to extension local storage from content scripts
- * @author Martin Springwald
+ * @author Priyanshu Vyas
  * @license MIT
  */
  

@@ -1,7 +1,7 @@
 ﻿/**
  * @module content.js
  * - apply user defined settings to javascript elements
- * @author Martin Springwald
+ * @author Priyanshu Vyas
  * @license MIT
  */
  

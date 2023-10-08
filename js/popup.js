@@ -3,7 +3,7 @@
  * - handle input for all check and text box elements
  * - load and save user defined settings
  * - collect and prepare to remove cookies and storage data
- * @author Martin Springwald
+ * @author Priyanshu Vyas
  * @license MIT
  */
 
