@@ -1,32 +1,44 @@
 ﻿a {
-	color: brown;
-}
-
-body {
-	font-family: sans-serif;
-}
-
-.aboutbox {
+	color: #E84A5F; /* A warm and complementary color for links */
+	text-decoration: none; /* Remove underlines from links */
+	transition: color 0.3s; /* Add a smooth color transition on hover */
+  }
+  
+  a:hover {
+	color: #FF847C; /* Change link color on hover */
+  }
+  
+  body {
+	font-family: 'Arial', sans-serif;
+	margin: 0;
+	padding: 0;
+  }
+  
+  .aboutbox {
 	display: flex;
 	flex-wrap: wrap;
-}
-
-.aboutbox > div {
-	background-color: #eee;
+	justify-content: center; /* Center-align flex items horizontally */
+  }
+  
+  .aboutbox > div {
+	background-color: #fff;
 	border-radius: 10px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add subtle box shadow for depth */
 	flex: 1;
 	margin: 10px;
-	min-height: 100px;
+	min-height: 200px; /* Increased minimum height for better content display */
 	min-width: 300px;
 	padding: 20px;
-}
-
-.headbox {
+	transition: transform 0.3s, box-shadow 0.3s; /* Add smooth transitions for hover effects */
+  }
+  
+  .aboutbox > div:hover {
+	transform: translateY(-5px); /* Add a slight lift effect on hover */
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Enhance box shadow on hover */
+  }
+  
+  .headbox {
 	margin: 10px;
 	padding: 20px;
-}
-
-.headbox img {
-	width: 10rem;
-	height: 10rem;
-}
+  }
+  

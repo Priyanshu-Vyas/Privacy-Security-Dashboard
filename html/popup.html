@@ -1,39 +1,106 @@
-﻿<html>
+﻿<!DOCTYPE html>
+<html>
 <head>
-	<title>Privacy Extension</title>
-	<link rel="stylesheet" type="text/css" href="../style/popup.css"/>
+    <title>Privacy Extension</title>
+    <link rel="stylesheet" type="text/css" href="../style/popup.css"/>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+
+        #main {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .box {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .box header {
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .box input[type="checkbox"] {
+            margin: 5px 0;
+        }
+
+        .button {
+            background-color: #007BFF;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+
+        .label {
+            margin: 5px 0;
+        }
+
+        /* Dark mode styles */
+        .dark-mode-button {
+            background-color: #222;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            padding: 10px;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <body>
-	<div id="overlay">
-		<div class="spinner">
-			<div></div>
-			<div></div>
-		</div>
-		<div id="pe_label_loading"></div>
-	</div>
-	<div id="main">
-		<div class="leftbox">
-			<b>Header</b><br/>
-			<input type="checkbox" id="pe_opt_accept"/> Accept<br/>
-			<input type="checkbox" id="pe_opt_cookie"/> Cookie<small><input type="checkbox" id="pe_opt_cookie_3rd"/> <span id="pe_label_cookie_3rd"></span></small><br/>
-			<input type="checkbox" id="pe_opt_referer"/> Referer<br/>
-			<input type="checkbox" id="pe_opt_user_agent"/> User Agent<br/>
-			<br/>
-			<b>Script</b> <input type="checkbox" id="pe_opt_script"/><br/>
-			<input type="checkbox" id="pe_opt_navigator"/> navigator<br/>
-			&nbsp;<input type="checkbox" id="pe_opt_navigatormimetypes"/> mimeTypes<br/>
-			&nbsp;<input type="checkbox" id="pe_opt_navigatorplugins"/> plugins<br/>
-			<input type="checkbox" id="pe_opt_canvastodataurl"/> toDataURL<br/>
-			<input type="checkbox" id="pe_opt_windowname"/> window.name<br/>
-		</div>
-		<div class="rightbox">
-			<input type="button" id="pe_but_clear_data" class="button"/> <div id="pe_label_clear_data" class="label">
-				<input type="checkbox" id="pe_opt_clear_data_3rd"/> <span id="pe_label_clear_data_3rd"></span><br/>
-			</div><br/>
-			<input type="button" id="pe_but_referer" class="button"/> <div id="pe_label_referer" class="label">&nbsp;</div><br/>
-			<input type="button" id="pe_but_user_agent" class="button"/> <div id="pe_label_user_agent" class="label">&nbsp;</div><br/>
-		</div>
-	</div>
+    <button id="mode-toggle" class="dark-mode-button">🌗</button>
+    <div id="overlay">
+        <div class="spinner">
+            <div></div>
+            <div></div>
+        </div>
+        <div id="pe_label_loading"></div>
+    </div>
+    <div id="main">
+        <div class="box leftbox">
+            <header>Header</header>
+            <input type="checkbox" id="pe_opt_accept"/> Accept<br/>
+            <input type="checkbox" id="pe_opt_cookie"/> Cookie<small><input type="checkbox" id="pe_opt_cookie_3rd"/> <span id="pe_label_cookie_3rd"></span></small><br/>
+            <input type="checkbox" id="pe_opt_referer"/> Referer<br/>
+            <input type="checkbox" id="pe_opt_user_agent"/> User Agent<br/>
+            <b>Script</b> <input type="checkbox" id="pe_opt_script"/><br/>
+            <input type="checkbox" id="pe_opt_navigator"/> navigator<br/>
+            &nbsp;<input type="checkbox" id="pe_opt_navigatormimetypes"/> mimeTypes<br/>
+            &nbsp;<input type="checkbox" id="pe_opt_navigatorplugins"/> plugins<br/>
+            <input type="checkbox" id="pe_opt_canvastodataurl"/> toDataURL<br/>
+            <input type="checkbox" id="pe_opt_windowname"/> window.name<br/>
+        </div>
+        <div class="box rightbox">
+            <button id="pe_but_clear_data" class="button">Clear Data</button>
+            <div id="pe_label_clear_data" class="label">
+                <input type="checkbox" id="pe_opt_clear_data_3rd"/> <span id="pe_label_clear_data_3rd"></span><br/>
+            </div>
+            <br/>
+            <button id="pe_but_referer" class="button">Change Referer</button>
+            <div id="pe_label_referer" class="label">&nbsp;</div>
+            <br/>
+            <button id="pe_but_user_agent" class="button">Change User Agent</button>
+            <div id="pe_label_user_agent" class="label">&nbsp;</div>
+            <br/>
+        </div>
+    </div>
 </body>
 <script src="../js/popup.js"></script>
 </html>
