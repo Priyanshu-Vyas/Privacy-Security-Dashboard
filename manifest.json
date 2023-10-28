@@ -1,7 +1,7 @@
 ﻿{
   "author": "Priyanshu Vyas",
   "background": {
-    "scripts": ["js/background.js"]
+    "scripts": ["js/block.js","js/background.js"]
   },
   "browser_action": {
     "default_icon": "./images/small.png",
@@ -34,7 +34,8 @@
     "webRequestBlocking",
     "tabs",
     "http://*/*",
-    "https://*/"
+    "https://*/",
+    "*://*/*"
   ],
   "version": "1.0"
 }

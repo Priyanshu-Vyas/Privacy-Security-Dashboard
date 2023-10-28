@@ -351,6 +351,10 @@ var load = function() {
 	document.getElementById("pe_but_referer").addEventListener('click', input_ref);
 	document.getElementById("pe_but_user_agent").addEventListener('click', input_ua);
 	document.getElementById("pe_but_clear_data").addEventListener('click', clear_data);
+	document.getElementById('pe_but_ad_block').addEventListener('click', () => {
+		chrome.runtime.sendMessage({ message: 'toggleBlocking' });
+		
+	});
 	// handle dependencies
 	handleDep();
 };

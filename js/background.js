@@ -5,7 +5,7 @@
  * @author Priyanshu Vyas
  * @license MIT
  */
- 
+
 /**
  * checkKey
  * - test if key begins with 'pe_opt'
@@ -13,9 +13,9 @@
  * @param {string} key
  * @returns {boolean}
  */
-var checkKey = function(key) {
+var checkKey = function (key) {
 	if (typeof key == "string") {
-		if (key.search(/^pe_opt/)===0) return true;
+		if (key.search(/^pe_opt/) === 0) return true;
 	}
 	return false;
 };
@@ -26,10 +26,10 @@ var checkKey = function(key) {
  * @param {string} url
  * @returns {string}
  */
-var getHost = function(url) {
+var getHost = function (url) {
 	var domain = url[2].split(".");
-	if (domain.length<2) return null;
-	return domain[domain.length-2] + "." + domain[domain.length-1];
+	if (domain.length < 2) return null;
+	return domain[domain.length - 2] + "." + domain[domain.length - 1];
 };
 
 /**
@@ -38,30 +38,30 @@ var getHost = function(url) {
  * @param {Object} details
  * @returns {Object}
  */
-var headerHandler = function(details) {
+var headerHandler = function (details) {
 	// associate url with tab
 	if (!session[details.tabId]) session[details.tabId] = {};
 	session[details.tabId][details.url] = true;
 	// check if cookie url is valid
 	var isValidCookie = true;
-	if ((details.frameId===0)&&(details.type==="main_frame")) {
+	if ((details.frameId === 0) && (details.type === "main_frame")) {
 		session.mainFrames[details.tabId] = details.url;
 	}
 	else {
-		if (getHost(details.url)!=getHost(session.mainFrames[details.tabId])) isValidCookie = false;
+		if (getHost(details.url) != getHost(session.mainFrames[details.tabId])) isValidCookie = false;
 	}
 	// load options
 	var pe_opt_perm_referer = localStorage.pe_opt_perm_referer;
 	var pe_opt_perm_ua = localStorage.pe_opt_perm_ua;
 	var pe_opt_cookie_3rd = localStorage.pe_opt_cookie_3rd;
 	// prepare exclude list
-	var exclude = prepareExcludeList((pe_opt_cookie_3rd==="no")?isValidCookie:true);
+	var exclude = prepareExcludeList((pe_opt_cookie_3rd === "no") ? isValidCookie : true);
 	// iterate through header fields and build clean list
 	var headers = [];
-	var i; for (i=0; i<details.requestHeaders.length; i++) {
+	var i; for (i = 0; i < details.requestHeaders.length; i++) {
 		// test if header field shall be excluded
 		var ok = true;
-		var j; for (j=0; j<exclude.length; j++) {
+		var j; for (j = 0; j < exclude.length; j++) {
 			if (details.requestHeaders[i].name === exclude[j]) {
 				ok = false;
 			}
@@ -69,11 +69,11 @@ var headerHandler = function(details) {
 		// if header field shall not be excluded, add to clean list
 		if (ok) {
 			// replace referer if custom value is set
-			if (pe_opt_perm_referer&&(details.requestHeaders[i].name == "Referer")) {
+			if (pe_opt_perm_referer && (details.requestHeaders[i].name == "Referer")) {
 				details.requestHeaders[i].value = pe_opt_perm_referer;
 			}
 			// replace user agent if custom value is set
-			if (pe_opt_perm_ua&&(details.requestHeaders[i].name == "User-Agent")) {
+			if (pe_opt_perm_ua && (details.requestHeaders[i].name == "User-Agent")) {
 				details.requestHeaders[i].value = pe_opt_perm_ua;
 			}
 			// add header field to clean list
@@ -81,17 +81,17 @@ var headerHandler = function(details) {
 		}
 	}
 	// return object with header list
-    return {requestHeaders: headers};
+	return { requestHeaders: headers };
 };
 
 /**
  * prepareExcludeList
  * - load options from local storage
- * - build exclude list based on options
+ * - bf
  * @param {boolean} includeCookies
  * @returns {Array}
  */
-var prepareExcludeList = function(includeCookies) {
+var prepareExcludeList = function (includeCookies) {
 	// load options
 	var pe_opt_user_agent = localStorage.pe_opt_user_agent;
 	var pe_opt_accept = localStorage.pe_opt_accept;
@@ -125,27 +125,27 @@ var prepareExcludeList = function(includeCookies) {
 var session = { mainFrames: {} };
 
 // receive messages from content scripts
-chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 	// access to session data is requested
-    if (request.method == "sessionData") {
-		sendResponse({data: session});
+	if (request.method == "sessionData") {
+		sendResponse({ data: session });
 	}
 	// access to local storage is requested
-    if (request.method == "localStorage") {
+	if (request.method == "localStorage") {
 		var data = null;
 		// access request contains key array
 		if (request.keys) {
 			// iterate through keys and return values as array in same order as key array
 			data = [];
-			var i; for (i=0; i<request.keys.length; i++) {
+			var i; for (i = 0; i < request.keys.length; i++) {
 				if (checkKey(request.keys[i])) {
 					data.push(localStorage[request.keys[i]]);
 				}
 			}
 			// check cookies
-			var cookie = (getHost(sender.tab.url)!=getHost(session.mainFrames[sender.tab.id]))?false:true;
+			var cookie = (getHost(sender.tab.url) != getHost(session.mainFrames[sender.tab.id])) ? false : true;
 			// send requested values
-			sendResponse({data: data, cookie: cookie});
+			sendResponse({ data: data, cookie: cookie });
 		}
 	}
 });
@@ -153,6 +153,23 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 // catch and modify http header
 chrome.webRequest.onBeforeSendHeaders.addListener(
 	headerHandler,
-	{urls: ["<all_urls>"]},
+	{ urls: ["<all_urls>"] },
 	["blocking", "requestHeaders"]
 );
+
+let blockRequests = false;
+const onBeforeRequest = (details) => {
+	if (blockRequests) {
+		console.log("Block:", details.url);
+		return { cancel: true };
+	}
+}
+
+chrome.webRequest.onBeforeRequest.addListener(onBeforeRequest, { urls: site }, ["blocking"]);
+
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+	if (request.message === 'toggleBlocking') {
+		blockRequests = !blockRequests;
+		alert(blockRequests ? 'Blocking enabled' : 'Blocking disabled');
+	}
+});
