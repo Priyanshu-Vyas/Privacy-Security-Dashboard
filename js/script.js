@@ -1,7 +1,7 @@
 /*
  * Website Blocker - Chrome Extension
- * 05-03-2020
- * Aniket Kudale
+ * 
+ * Priyanshu Vyas
  */
 
 let urls = []; // Global variable to store URLs
